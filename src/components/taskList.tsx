@@ -1,9 +1,13 @@
 import Task from "./task";
-import { observer } from "mobx-react";
-import store from "../mobx/store";
+import {taskListState, useTaskUpdate} from "../store/task";
+import {useRecoilState} from "recoil";
 
-const TaskList = observer(() => {
-    const { tasks, status, updateTaskState, addNewTask } = store;
+type Props = {}
+
+const TaskList = (props: Props) => {
+    const {updateTaskState} = useTaskUpdate()
+    const [taskList] = useRecoilState(taskListState)
+    const {tasks, isLoading} = taskList;
 
     const pinTask = (value: number) => {
         updateTaskState(value, "TASK_PINNED");
@@ -22,7 +26,7 @@ const TaskList = observer(() => {
         </div>
     );
 
-    if (status === "loading") {
+    if (isLoading) {
         return (
             <div className="list-items" data-testid="loading" key={"loading"}>
                 {LoadingRow}
@@ -34,8 +38,7 @@ const TaskList = observer(() => {
             </div>
         );
     }
-
-    if (tasks.length === 0) {
+    else if (tasks.length === 0) {
         return (
             <div className="list-items" key={"empty"} data-testid="empty">
                 <div className="wrapper-message">
@@ -46,19 +49,20 @@ const TaskList = observer(() => {
             </div>
         );
     }
-
-    return (
-        <div className="list-items" data-testid="success" key={"success"}>
-            {tasks.map((task) => (
-                <Task
-                    key={task.id}
-                    task={task}
-                    onPinTask={(task) => pinTask(task)}
-                    onArchiveTask={(task) => archiveTask(task)}
-                />
-            ))}
-        </div>
-    );
-});
+    else {
+        return (
+            <div className="list-items" data-testid="success" key={"success"}>
+                {tasks.map((task) => (
+                    <Task
+                        key={task.id}
+                        task={task}
+                        onPinTask={(task) => pinTask(task)}
+                        onArchiveTask={(task) => archiveTask(task)}
+                    />
+                ))}
+            </div>
+        );
+    }
+};
 
 export default TaskList;

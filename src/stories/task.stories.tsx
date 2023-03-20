@@ -1,5 +1,6 @@
 import { Meta, Story } from "@storybook/react";
-import Task from "./task";
+import Task from "../components/task";
+import React from "react";
 
 type TaskProps = React.ComponentProps<typeof Task>;
 

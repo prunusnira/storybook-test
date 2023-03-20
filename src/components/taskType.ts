@@ -1,6 +1,12 @@
-type TaskType = {
+export type TaskType = {
     id: number;
     title: string;
     state: string;
 };
-export default TaskType;
+
+export type TaskListType = {
+    tasks: Array<TaskType>,
+    isLoading: boolean,
+    status: string,
+    error: string,
+};
