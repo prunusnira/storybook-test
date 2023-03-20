@@ -1,6 +1,6 @@
 import TaskList from "../components/taskList";
-import {ComponentMeta, ComponentStoryObj, Meta, Story} from "@storybook/react";
-import React, {ComponentProps, useEffect} from "react";
+import {ComponentMeta, Story} from "@storybook/react";
+import React, {useEffect} from "react";
 import {RecoilRoot} from "recoil";
 import {TaskType} from "../components/taskType";
 import {useTaskUpdate} from "../store/task";
